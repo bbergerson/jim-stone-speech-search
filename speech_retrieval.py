@@ -1,7 +1,5 @@
-# Install necessary packages
-!pip install pymupdf python-docx torch pandas sentence-transformers google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client streamlit
-
 import os
+import subprocess
 import fitz  # PyMuPDF for PDFs
 import docx
 import torch
@@ -11,6 +9,17 @@ from sentence_transformers import SentenceTransformer, util
 from google.colab import auth
 from googleapiclient.discovery import build
 from google.colab import drive
+
+# Ensure required packages are installed at runtime
+required_packages = [
+    "pymupdf", "python-docx", "torch", "pandas", "sentence-transformers",
+    "google-auth", "google-auth-oauthlib", "google-auth-httplib2", "google-api-python-client", "streamlit"
+]
+for package in required_packages:
+    try:
+        __import__(package.replace("-", "_"))
+    except ImportError:
+        subprocess.run(["pip", "install", package])
 
 # Authenticate and mount Google Drive
 auth.authenticate_user()
